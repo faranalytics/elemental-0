@@ -1,78 +1,69 @@
-class Elemental {
+export function $(name: string, attr?: { [key: string]: string }) {
 
-    public r: any;
-    public promise: Promise<string>;
-
-    constructor() {
-
-        this.promise = new Promise((r, j) => {
-            this.r = r;
-        });
+    let tag = '<' + name;
+    if (attr) {
+        let ks = Object.keys(attr);
+        for (let i = 0; i < ks.length; i++) {
+            let v = attr[ks[i]];
+            let ev = '';
+            for (let i = v.length; i--;) {
+                let c = v[i];
+                if (c == '&') {
+                    ev = '&amp;' + ev;
+                }
+                else if (c == '<') {
+                    ev = '&lt;' + ev;
+                }
+                else if (c == '>') {
+                    ev = '&gt;' + ev;
+                }
+                else if (c == '"') {
+                    ev = '&quot' + ev;
+                }
+                else {
+                    ev = c + ev;
+                }
+            }
+            tag = tag + ' ' + ks[i] + '="' + ev + '"';
+        }
     }
-}
 
-function $(tag: string, attr?: object): (...nodes: Array<string | Function>) => ((it: any) => Promise<string>) {
+    tag = tag + '>';
 
-    if (typeof attr == `object`) {
-        var sattr: string = Object.entries(attr).map(([key, value]) => {
-            return `${key}="${value}"`;
-        }).join(` `);
+    return function outer(...args: Array<typeof inner | typeof outer | string>): typeof inner {
 
-        var openingTag = `<${tag}${attr ? ` ${sattr}` : ``}>`;
-    }
-    else {
-        var openingTag = `<${tag}>`;
-    }
+        function inner(activate: { [key: string]: string }, et:boolean=false): string {
 
-    let closingTag = `</${tag}>`;
+            if (activate && attr) {
+                if (attr.hasOwnProperty('id') && activate.hasOwnProperty(attr['id'])){
+                    args.push(activate[attr['id']]);
+                    delete activate[attr['id']];
+                }
+            }
 
-    function el(this: Elemental, ...nodes: Array<string | Function>): ((it: any) => Promise<string>) {
-
-        this.r();
-
-        if (nodes.length) {
-
-            return async (sub: any): Promise<string> => {
-
-                return `${openingTag}${(await Promise.all(nodes.map(async (node: string | Function) => {
-
-                    if (typeof node == `string`) {
-                        
-                        return node;
+            for (let i = 0; i < args.length; i++) {
+                let arg = args[i];
+                if (typeof arg == 'function') {
+                    if (arg.name == 'outer') {
+                        tag = tag + ((arg as typeof outer)() as typeof inner)(activate, false);
                     }
-                    else if (typeof node == `function`) {
-
-                        let render: string = await node(sub);
-
-                        if (typeof render == `string`) {
-                            return render;
-                        }
-                        else {
-                            throw new Error(
-                                `Expected a string; however, a ${typeof render} was returned instead.`
-                            );
-                        }
+                    else if (arg.name == 'inner') {
+                        tag = tag + (arg as typeof inner)(activate, true);
                     }
-                    else {
-                        throw new Error(
-                            `Expected a string or function; however, a ${typeof node} was encountered instead.`
-                        );
-                    }
-                }))).join(``)
-                    }${closingTag}`
+                }
+                else if (typeof arg == 'string') {
+                    tag = tag + args[i];
+                }
+            }
+
+            if (!et) {
+                return tag;
+            }
+            else {
+                return tag + '</' + name + '>';
             }
         }
-        else {
-            return async function () { return openingTag };
-        }
+
+        return inner;
     }
-
-    let elemental = new Elemental();
-
-    return el.bind(elemental);
 }
-
-let el = $;
-
-export { $, el };
-

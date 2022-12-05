@@ -1,3 +1,4 @@
 dist
 node_modules
-paste
+paste.ts
+paste.js

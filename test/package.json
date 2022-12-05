@@ -8,5 +8,8 @@
   },
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@faranalytics/elemental": "file:.."
+  },
   "type": "module"
 }

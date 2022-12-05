@@ -1,40 +1,31 @@
-import { $ } from '../dist/index.js'
+import { $ } from '@faranalytics/elemental';
 
-(async () => {
 
-    try {
-
-        let content = $('div')
-
-        let template = $('html')(
-            $('head')(
-                $('title', { id: 'a', class: 'title' })('The Title.')
-            ),
-            $('body')(
-                $('div', { id: 'main' })(
-                    $('h1')("Heading"),
-                    $('br')(),
-                    $('div')(
-                        content,
-                        $('div')("TEST2")
-                    ),
-                    $('footer')(),
+let template = $('!DOCTYPE html')(
+    $('html')(
+        $('head')(
+            $('title', { id: 'title', class: 'title' })('The Title.')
+        ),
+        $('body')(
+            $('main', { id: 'main' })(
+                $('h1')(
+                    "Heading"
                 ),
-                $('script')()
-            )
+                $('br'),
+                $('div')(
+                    $('div')("Some content.")
+                ),
+                $('footer')(
+                    "The Footer."
+                ),
+            ),
+            $('script')()
         )
+    )
+)
 
-        content("TEST-123");
 
-        let result1 = await template();
 
-        console.log(result1)
+let html = template();
 
-        // let result2 = await template('TESTABC');
-
-        // console.log(result2)
-    }
-    catch (e) {
-        console.log('catch', e);
-    }
-})();
+console.log(html)
