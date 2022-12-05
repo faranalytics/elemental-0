@@ -1,6 +1,6 @@
 # Elemental-0
 
-Elemental naught is a dynamic HTML generator that can be used either client-side or server-side.
+Elemental naught is a dynamic HTML generator that can be used client-side or server-side.
 
 ## Usage
 
