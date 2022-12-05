@@ -1,19 +1,22 @@
 import { $ } from '@faranalytics/elemental';
 
-
 let template = $('!DOCTYPE html')(
     $('html')(
         $('head')(
-            $('title', { id: 'title', class: 'title' })('The Title.')
+            $('title', { id: 'title', class: 'title' })(
+                "The Title."
+            )
         ),
         $('body')(
             $('main', { id: 'main' })(
                 $('h1')(
-                    "Heading"
+                    "Heading 1"
                 ),
                 $('br'),
-                $('div')(
-                    $('div')("Some content.")
+                $('div', { 'id': 'main-content' })(
+                    $('div')(
+                        "More content."
+                    )
                 ),
                 $('footer')(
                     "The Footer."
@@ -24,8 +27,6 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-
-
-let html = template();
+let html = template({'main-content': "Main content."});
 
 console.log(html)
