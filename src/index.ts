@@ -36,7 +36,7 @@ export function $(name: string, attr?: { [key: string]: string }) {
 
             if (activate && attr) {
                 if (attr.hasOwnProperty('id') && activate.hasOwnProperty(attr['id'])){
-                    args.push(activate[attr['id']]);
+                    args.unshift(activate[attr['id']]);
                     delete activate[attr['id']];
                 }
             }
