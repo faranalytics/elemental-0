@@ -15,7 +15,7 @@ let template = $('!DOCTYPE html')(
                 $('br'),
                 $('div', { 'id': 'main-content' })(
                     $('div')(
-                        "More content."
+                        "More static content."
                     )
                 ),
                 $('footer')(
@@ -27,6 +27,6 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-let html = template({'main-content': "Main content."});
+let html = template({'main-content': "Main dynamic content."});
 
 console.log(html)
