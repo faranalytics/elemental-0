@@ -54,8 +54,8 @@ The resulting HTML is:
         <h1>Heading 1</h1><br>
         <div id="main-content">Main dynamic content.<div>More static content.</div>
         </div>
-        <footer>The Footer.</footer>
     </main>
+    <footer>The Footer.</footer>
     <script></script>
 </body>
 

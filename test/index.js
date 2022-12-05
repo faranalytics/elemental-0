@@ -18,9 +18,9 @@ let template = $('!DOCTYPE html')(
                         "More static content."
                     )
                 ),
-                $('footer')(
-                    "The Footer."
-                ),
+            ),
+            $('footer')(
+                "The Footer."
             ),
             $('script')()
         )
