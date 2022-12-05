@@ -4,7 +4,7 @@ Elemental naught is a dynamic HTML generator that can be used client-side or ser
 
 ## Usage
 
-Usage of E-0 is best explained by an example:
+Usage of E-0 is explained by an example:
 
 ```js
 import { $ } from '@faranalytics/elemental';
