@@ -1,3 +1,5 @@
+
+
 export function $(name: string, attr?: { [key: string]: string }) {
 
     let tag = '<' + name;
@@ -30,12 +32,12 @@ export function $(name: string, attr?: { [key: string]: string }) {
 
     tag = tag + '>';
 
-    return function outer(...args: Array<typeof inner | typeof outer | string>): typeof inner {
+    function outer(...args: Array<typeof inner | typeof outer | string>): typeof inner {
 
-        function inner(activate: { [key: string]: string }, et:boolean=false): string {
+        function inner(activate: { [key: string]: string }, et: boolean=true): string {
 
             if (activate && attr) {
-                if (attr.hasOwnProperty('id') && activate.hasOwnProperty(attr['id'])){
+                if (attr.hasOwnProperty('id') && activate.hasOwnProperty(attr['id'])) {
                     args.unshift(activate[attr['id']]);
                     delete activate[attr['id']];
                 }
@@ -66,4 +68,6 @@ export function $(name: string, attr?: { [key: string]: string }) {
 
         return inner;
     }
+
+    return outer;
 }

@@ -27,6 +27,6 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-let html = template({ 'main-content': "Main dynamic content." });
+let html = template({ 'main-content': "Main dynamic content." }, null);
 
 console.log(html)

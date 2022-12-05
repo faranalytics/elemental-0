@@ -1,6 +1,6 @@
 # Elemental-0
 
-Elemental naught is a synchronous dynamic HTML generator that can be used client-side or server-side.
+Elemental naught is a synchronous dynamic HTML generator that will run on the client or the server.
 
 ## Usage
 
@@ -22,7 +22,7 @@ let template = $('!DOCTYPE html')(
                     "Heading 1"
                 ),
                 $('br'),
-                $('div', { 'id': 'main-content' })(
+                $('div', { id: 'main-content' })(
                     $('div')(
                         "More static content."
                     )
