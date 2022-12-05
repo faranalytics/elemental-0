@@ -1,7 +1,7 @@
 import { $ } from '@faranalytics/elemental';
 
 let template = $('!DOCTYPE html')(
-    $('html')(
+    $('html', { 'lang': 'en' })(
         $('head')(
             $('title', { id: 'title', class: 'title' })(
                 "The Title."
@@ -27,6 +27,6 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-let html = template({'main-content': "Main dynamic content."});
+let html = template({ 'main-content': "Main dynamic content." });
 
 console.log(html)

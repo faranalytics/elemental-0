@@ -43,7 +43,7 @@ The formatted HTML is:
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title id="title" class="title">The Title.</title>
