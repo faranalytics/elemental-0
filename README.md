@@ -52,7 +52,7 @@ The resulting HTML is:
 <body>
     <main id="main">
         <h1>Heading 1</h1><br>
-        <div id="main-content">Some content.<div>More content.</div>
+        <div id="main-content">Main dynamic content.<div>More static content.</div>
         </div>
         <footer>The Footer.</footer>
     </main>
