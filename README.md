@@ -39,7 +39,7 @@ let template = $('!DOCTYPE html')(
 let html = template({'main-content': "Main dynamic content."});
 ```
 
-The resulting HTML is:
+The formatted HTML is:
 
 ```html
 <!DOCTYPE html>
