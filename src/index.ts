@@ -1,5 +1,7 @@
 const attributeName = /^[^\u{0000}-\u{001f}\u{0022}\u{0027}\u{003e}\u{002f}\u{003d}\u{e000}-\u{f8ff}\u{f0000}-\u{ffffd}]+$/u
 const attributeValue = /^[^\u{0000}-\u{0008}\u{000b}\u{000e}-\u{001F}\u{e000}-\u{f8ff}\u{f0000}-\u{ffffd}]*$/u
+const tagName = /^[\u{0030}-\u{0039}\u{0061}-\u{007A}\u{0041}-\{005A}]+$/ui
+const preamble = /^!DOCTYPE +html/i
 
 function attrToString(attr: { [key: string]: string }){
 
@@ -10,14 +12,14 @@ function attrToString(attr: { [key: string]: string }){
             let name = names[i];
 
             if (!name.match(attributeName)){
-                throw new Error(`The attribute name ${name} does not match ${attributeName.toString()}.`);
+                throw new Error(`The attribute name named ${name} does not match the regular expression ${attributeName.toString()}.`);
             }
 
             attrStr = attrStr + ' ' + name + '="';
 
             let value = attr[name];
             if (!value.match(attributeValue)) {
-                throw new Error(`The attribute value ${value} does not match ${attributeValue.toString()}.`);
+                throw new Error(`The attribute value of ${value} does not match the regular expression ${attributeValue.toString()}.`);
             }
 
             for (let i = 0; i < value.length; i++) {
@@ -45,6 +47,10 @@ function attrToString(attr: { [key: string]: string }){
     }
 
 export function $(name: string, attr?: { [key: string]: string }) {
+
+    if (!name.match(tagName) && !name.match(preamble)){
+        throw new Error(`The tag or preamble named ${name} matches neither the regular expression ${tagName.toString()} nor the regular expression ${preamble.toString()}.`);
+    }
 
     let tag = '<' + name;
 
