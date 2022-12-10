@@ -1,7 +1,7 @@
 {
   "name": "elemental-0",
   "version": "1.0.1",
-  "description": "",
+  "description": "Elemental Naught is a synchronous dynamic HTML generator that will run on the client or the server.",
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
