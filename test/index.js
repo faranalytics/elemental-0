@@ -8,16 +8,22 @@ let template = $('!DOCTYPE html')(
             )
         ),
         $('body')(
-            $('main', { id: 'main' })(
-                $('h1')(
-                    "Heading 1"
-                ),
-                $('br'),
-                $('div', { 'id': 'main-content' })(
-                    $('div')(
-                        "More static content."
+            $('header')(
+                $('nav', { class: 'main' })(
+                    $('ul')(
+                        $('li')('Menu Item 1'),
+                        $('li')('Menu Item 2'),
+                        $('li')('Menu Item 3'),
                     )
-                ),
+                )
+            ),
+            $('main', { class: 'main' })(
+                $('h1', { id: 'heading' })(),
+                $('br'),
+                $('div', { 'id': 'main-content' })(),
+                $('div')(
+                    "More static content."
+                )
             ),
             $('footer')(
                 "The Footer."
@@ -27,6 +33,9 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-let html = template({ 'main-content': "Main dynamic content." }, null);
+let html = template({ 
+    'heading': $('span')('A dynamic heading.'),
+    'main-content': $('div')("The main dynamic content.") 
+}, null);
 
 console.log(html)
