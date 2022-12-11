@@ -1,6 +1,6 @@
 {
   "name": "elemental-0",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Elemental Naught is a synchronous dynamic HTML generator that will run on the client or the server.",
   "main": "./dist/index.js",
   "scripts": {
