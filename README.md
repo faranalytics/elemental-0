@@ -1,6 +1,6 @@
-# Elemental Naught
+# Elemental naught
 
-Elemental Naught is a synchronous dynamic HTML generator that will run on the client or the server.
+Elemental naught is a synchronous dynamic HTML generator that will run on the client or the server.
 
 ## Usage
 
@@ -9,7 +9,6 @@ Usage of E0 is explained with an example:
 ```js
 import { $ } from '@faranalytics/elemental';
 
-//  Create an HTML template.
 let template = $('!DOCTYPE html')(
     $('html', { 'lang': 'en' })(
         $('head')(
@@ -21,9 +20,9 @@ let template = $('!DOCTYPE html')(
             $('header')(
                 $('nav', { class: 'main' })(
                     $('ul')(
-                        $('li')('Menu Item 1'),
-                        $('li')('Menu Item 2'),
-                        $('li')('Menu Item 3'),
+                        $('li')("Menu Item 1"),
+                        $('li')("Menu Item 2"),
+                        $('li')("Menu Item 3"),
                     )
                 )
             ),
@@ -32,7 +31,13 @@ let template = $('!DOCTYPE html')(
                 $('br'),
                 $('div', { 'id': 'main-content' })(),
                 $('div')(
-                    "More static content."
+                    "Some static content."
+                ),
+                $('label', { 'for': 'engines' })("Choose an engine."),
+                $('select', { 'id': 'engines' })(
+                    $('option', { 'value': 'Template Engines', 'selected': false })(
+                        "Template Engines"
+                    )
                 )
             ),
             $('footer')(
@@ -43,10 +48,10 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-//  Now, easily inject dynamic content into the template:
-let html = template({ 
+let html = template({
+    'engines': $('option', { 'value': 'Elemental naught', 'selected': true })("Elemental naught"),
     'heading': $('span')('A dynamic heading.'),
-    'main-content': $('div')("The main dynamic content.") 
+    'main-content': "The main dynamic content."
 }, null);
 
 console.log(html)
@@ -74,10 +79,11 @@ The formatted HTML is:
     </header>
     <main class="main">
         <h1 id="heading"><span>A dynamic heading.</span></h1><br>
-        <div id="main-content">
-            <div>The main dynamic content.</div>
-        </div>
-        <div>More static content.</div>
+        <div id="main-content">The main dynamic content.</div>
+        <div>Some static content.</div><label for="engines">Choose an engine.</label><select id="engines">
+            <option value="Elemental naught" selected>Elemental naught</option>
+            <option value="Template Engines">Template Engines</option>
+        </select>
     </main>
     <footer>The Footer.</footer>
     <script></script>
@@ -90,3 +96,7 @@ The formatted HTML is:
 ```bash
 npm i elemental-0
 ```
+
+## Aspirations
+### Implement a subset of CSS selectors.
+E0 presently only supports injecting content at a given id name.

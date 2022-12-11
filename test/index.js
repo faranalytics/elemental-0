@@ -11,9 +11,9 @@ let template = $('!DOCTYPE html')(
             $('header')(
                 $('nav', { class: 'main' })(
                     $('ul')(
-                        $('li')('Menu Item 1'),
-                        $('li')('Menu Item 2'),
-                        $('li')('Menu Item 3'),
+                        $('li')("Menu Item 1"),
+                        $('li')("Menu Item 2"),
+                        $('li')("Menu Item 3"),
                     )
                 )
             ),
@@ -22,7 +22,13 @@ let template = $('!DOCTYPE html')(
                 $('br'),
                 $('div', { 'id': 'main-content' })(),
                 $('div')(
-                    "More static content."
+                    "Some static content."
+                ),
+                $('label', { 'for': 'engines' })("Choose an engine."),
+                $('select', { 'id': 'engines' })(
+                    $('option', { 'value': 'Template Engines', 'selected': false })(
+                        "Template Engines"
+                    )
                 )
             ),
             $('footer')(
@@ -33,9 +39,10 @@ let template = $('!DOCTYPE html')(
     )
 )
 
-let html = template({ 
+let html = template({
+    'engines': $('option', { 'value': 'Elemental naught', 'selected': true })("Elemental naught"),
     'heading': $('span')('A dynamic heading.'),
-    'main-content': $('div')("The main dynamic content.") 
+    'main-content': "The main dynamic content."
 }, null);
 
 console.log(html)
