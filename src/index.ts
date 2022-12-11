@@ -58,7 +58,9 @@ function attrToString(attr: { [key: string]: string | boolean }) {
 
 export function $(name: string, attr?: { [key: string]: string }) {
 
-    if (!name.match(tagName) && !name.match(preamble)) {
+    const isPreamble = name.match(preamble);
+
+    if (!name.match(tagName) && !isPreamble) {
         throw new Error(`The tag or preamble named ${name} matches neither the regular expression ${tagName.toString()} nor the regular expression ${preamble.toString()}.`);
     }
 
@@ -72,7 +74,7 @@ export function $(name: string, attr?: { [key: string]: string }) {
 
     function wrap(...args: Array<typeof wrap | typeof activate | string>): typeof activate {
 
-        function activate(selector: { [key: string]: string }, et: boolean | null = true): string {
+        function activate(selector: { [key: string]: string }, et: boolean = true): string {
 
             if (selector && attr) {
                 if (attr.hasOwnProperty('id') && selector.hasOwnProperty(attr['id'])) {
@@ -85,9 +87,12 @@ export function $(name: string, attr?: { [key: string]: string }) {
                 let arg = args[i];
                 if (typeof arg == 'function') {
                     if (arg.hasOwnProperty(wrapper)) {
-                        tag = tag + ((arg as typeof wrap)() as typeof activate)(selector, null);
+                        tag = tag + ((arg as typeof wrap)() as typeof activate)(selector, false);
                     }
                     else if (arg.hasOwnProperty(activator)) {
+                        if (isPreamble) {
+                            et = false;
+                        }
                         tag = tag + (arg as typeof activate)(selector, true);
                     }
                 }
@@ -97,6 +102,7 @@ export function $(name: string, attr?: { [key: string]: string }) {
             }
 
             if (!et) {
+                console.log('test', tag)
                 return tag;
             }
             else {

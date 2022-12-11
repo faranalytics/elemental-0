@@ -52,7 +52,7 @@ let html = template({
     'engines': $('option', { 'value': 'Elemental naught', 'selected': true })("Elemental naught"),
     'heading': $('span')('A dynamic heading.'),
     'main-content': "The main dynamic content."
-}, null);
+});
 
 console.log(html)
 ```
