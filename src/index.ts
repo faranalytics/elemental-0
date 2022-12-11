@@ -3,21 +3,27 @@ const attributeValue = /^[^\u{0000}-\u{0008}\u{000b}\u{000e}-\u{001F}\u{e000}-\u
 const tagName = /^[\u{0030}-\u{0039}\u{0061}-\u{007A}\u{0041}-\{005A}]+$/ui
 const preamble = /^!DOCTYPE +html/i
 
-function attrToString(attr: { [key: string]: string }){
+const wrapper = Symbol('wrap');
+const activator = Symbol('activate');
 
-        let names = Object.keys(attr);
-        let attrStr = '';
-        for (let i = 0; i < names.length; i++) {
+function attrToString(attr: { [key: string]: string | boolean }) {
 
-            let name = names[i];
+    let names = Object.keys(attr);
+    let attrStr = '';
+    for (let i = 0; i < names.length; i++) {
 
-            if (!name.match(attributeName)){
-                throw new Error(`The attribute name named ${name} does not match the regular expression ${attributeName.toString()}.`);
-            }
+        let name = names[i];
+
+        if (!name.match(attributeName)) {
+            throw new Error(`The attribute name named ${name} does not match the regular expression ${attributeName.toString()}.`);
+        }
+
+        let value = attr[name];
+
+        if (typeof value == 'string') {
 
             attrStr = attrStr + ' ' + name + '="';
 
-            let value = attr[name];
             if (!value.match(attributeValue)) {
                 throw new Error(`The attribute value of ${value} does not match the regular expression ${attributeValue.toString()}.`);
             }
@@ -40,15 +46,19 @@ function attrToString(attr: { [key: string]: string }){
                     attrStr = attrStr + char;
                 }
             }
-            attrStr = attrStr  + '"';
+            attrStr = attrStr + '"';
         }
-
-        return attrStr;
+        else if (typeof value == 'boolean' && value === true) {
+            attrStr = attrStr + ' ' + name;
+        }
     }
+
+    return attrStr;
+}
 
 export function $(name: string, attr?: { [key: string]: string }) {
 
-    if (!name.match(tagName) && !name.match(preamble)){
+    if (!name.match(tagName) && !name.match(preamble)) {
         throw new Error(`The tag or preamble named ${name} matches neither the regular expression ${tagName.toString()} nor the regular expression ${preamble.toString()}.`);
     }
 
@@ -60,7 +70,7 @@ export function $(name: string, attr?: { [key: string]: string }) {
 
     tag = tag + '>';
 
-    function elemental(...args: Array<typeof elemental | typeof activate | string>): typeof activate {
+    function wrap(...args: Array<typeof wrap | typeof activate | string>): typeof activate {
 
         function activate(selector: { [key: string]: string }, et: boolean | null = true): string {
 
@@ -74,10 +84,10 @@ export function $(name: string, attr?: { [key: string]: string }) {
             for (let i = 0; i < args.length; i++) {
                 let arg = args[i];
                 if (typeof arg == 'function') {
-                    if (arg.name == 'elemental') {
-                        tag = tag + ((arg as typeof elemental)() as typeof activate)(selector, null);
+                    if (arg.hasOwnProperty(wrapper)) {
+                        tag = tag + ((arg as typeof wrap)() as typeof activate)(selector, null);
                     }
-                    else if (arg.name == 'activate') {
+                    else if (arg.hasOwnProperty(activator)) {
                         tag = tag + (arg as typeof activate)(selector, true);
                     }
                 }
@@ -94,8 +104,16 @@ export function $(name: string, attr?: { [key: string]: string }) {
             }
         }
 
-        return activate;
+        return Object.defineProperty(activate, activator, {
+            value: null,
+            writable: false,
+            configurable: false
+        });
     }
 
-    return elemental;
+    return Object.defineProperty(wrap, wrapper, {
+        value: null,
+        writable: false,
+        configurable: false
+    });;
 }
