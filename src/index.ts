@@ -102,7 +102,6 @@ export function $(name: string, attr?: { [key: string]: string }) {
             }
 
             if (!et) {
-                console.log('test', tag)
                 return tag;
             }
             else {
