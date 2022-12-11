@@ -9,6 +9,7 @@ Usage of E0 is explained with an example:
 ```js
 import { $ } from '@faranalytics/elemental';
 
+//  Create an HTML template.
 let template = $('!DOCTYPE html')(
     $('html', { 'lang': 'en' })(
         $('head')(
@@ -33,6 +34,7 @@ let template = $('!DOCTYPE html')(
                 $('div')(
                     "Some static content."
                 ),
+                $('div', {'id':'date'})(),
                 $('label', { 'for': 'engines' })("Choose an engine."),
                 $('select', { 'id': 'engines' })(
                     $('option', { 'value': 'Template Engines', 'selected': false })(
@@ -46,15 +48,17 @@ let template = $('!DOCTYPE html')(
             $('script')()
         )
     )
-)
+);
 
+//  Now, inject dynamic content into the template by tag id.
 let html = template({
+    'main-content': "The main dynamic content.",
+    'date': Date(),
     'engines': $('option', { 'value': 'Elemental naught', 'selected': true })("Elemental naught"),
     'heading': $('span')('A dynamic heading.'),
-    'main-content': "The main dynamic content."
 });
 
-console.log(html)
+console.log(html);
 ```
 
 The formatted HTML is:
@@ -80,7 +84,9 @@ The formatted HTML is:
     <main class="main">
         <h1 id="heading"><span>A dynamic heading.</span></h1><br>
         <div id="main-content">The main dynamic content.</div>
-        <div>Some static content.</div><label for="engines">Choose an engine.</label><select id="engines">
+        <div>Some static content.</div>
+        <div id="date">Sun Dec 11 2022 19:55:18 GMT+0000 (Coordinated Universal Time)</div><label for="engines">Choose
+            an engine.</label><select id="engines">
             <option value="Elemental naught" selected>Elemental naught</option>
             <option value="Template Engines">Template Engines</option>
         </select>
