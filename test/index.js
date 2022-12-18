@@ -1,5 +1,6 @@
-import { $ } from '@faranalytics/elemental';
+import { $ } from '@faranalytics/elemental-0';
 
+//  Create an HTML template.
 let template = $('!DOCTYPE html')(
     $('html', { 'lang': 'en' })(
         $('head')(
@@ -24,6 +25,7 @@ let template = $('!DOCTYPE html')(
                 $('div')(
                     "Some static content."
                 ),
+                $('div', {'id':'date'})(),
                 $('label', { 'for': 'engines' })("Choose an engine."),
                 $('select', { 'id': 'engines' })(
                     $('option', { 'value': 'Template Engines', 'selected': false })(
@@ -37,12 +39,14 @@ let template = $('!DOCTYPE html')(
             $('script')()
         )
     )
-)
+);
 
+//  Now, inject dynamic content into the template by tag id.
 let html = template({
+    'main-content': "The main dynamic content.",
+    'date': Date(),
     'engines': $('option', { 'value': 'Elemental naught', 'selected': true })("Elemental naught"),
     'heading': $('span')('A dynamic heading.'),
-    'main-content': "The main dynamic content."
 });
 
-console.log(html)
+console.log(html);

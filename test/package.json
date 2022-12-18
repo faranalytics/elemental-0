@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@faranalytics/elemental": "file:.."
+    "@faranalytics/elemental-0": "file:.."
   },
   "type": "module"
 }
