@@ -56,6 +56,8 @@ function attrToString(attr: { [key: string]: string | boolean }) {
     return attrStr;
 }
 
+export type ActivatorT = (selector?: { [key: string]: (string | ActivatorT) }, hasEndTag?: boolean) => string;
+
 export function $(_name: string, _attr?: { [key: string]: string }) {
 
     const [name, attr] = arguments;
